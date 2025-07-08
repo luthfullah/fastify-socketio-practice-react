@@ -8,6 +8,7 @@ import PrivateRoute from "../components/PrivateRoute";
 import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import FormComp from "../pages/FormComp";
+import Home from "../pages/Home";
 
 export default function AppRoutes() {
   return (
@@ -22,6 +23,7 @@ export default function AppRoutes() {
       {/* Protected routes */}
       <Route element={<PrivateRoute />}>
         <Route element={<MainLayout />}>
+          <Route path="/home" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/form" element={<FormComp />} />
         </Route>

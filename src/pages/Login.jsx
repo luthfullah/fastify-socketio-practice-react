@@ -7,7 +7,7 @@ export default function Login() {
 
   const handleLogin = () => {
     login();
-    navigate("/dashboard");
+    navigate("/home");
   };
 
   return (
