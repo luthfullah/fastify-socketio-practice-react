@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import {
   Calendar,
   Mail,
@@ -20,9 +21,37 @@ const FormComp = () => {
     newsletter: false,
     terms: false,
   });
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const payload = {
+        ...formData,
+        birthDate: new Date(formData.birthDate).toISOString(), // 👈 converts to ISO 8601
+      };
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/submit",
+        payload
+      );
+      console.log("Form submitted successfully:", response.data);
+
+      // Optional: reset form
+      setFormData({
+        fullName: "",
+        email: "",
+        phone: "",
+        country: "",
+        birthDate: "",
+        gender: "",
+        message: "",
+        newsletter: false,
+        terms: false,
+      });
+    } catch (error) {
+      console.error(
+        "Form submission failed:",
+        error.response?.data || error.message
+      );
+    }
   };
 
   const handleInputChange = (field, value) => {

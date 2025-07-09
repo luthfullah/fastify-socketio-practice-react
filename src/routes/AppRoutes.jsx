@@ -9,6 +9,7 @@ import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import FormComp from "../pages/FormComp";
 import Home from "../pages/Home";
+import SubmittedForms from "../pages/SubmittedForms";
 
 export default function AppRoutes() {
   return (
@@ -26,6 +27,7 @@ export default function AppRoutes() {
           <Route path="/home" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/form" element={<FormComp />} />
+          <Route path="/submitted" element={<SubmittedForms />} />
         </Route>
       </Route>
 
