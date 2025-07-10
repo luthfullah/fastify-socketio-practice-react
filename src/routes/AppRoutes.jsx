@@ -10,8 +10,36 @@ import AuthLayout from "../layouts/AuthLayout";
 import FormComp from "../pages/FormComp";
 import Home from "../pages/Home";
 import SubmittedForms from "../pages/SubmittedForms";
+// import { useEffect, useState } from "react";
+// import io from "socket.io-client";
+
+// const socket = io("http://localhost:5000", { autoConnect: false });
 
 export default function AppRoutes() {
+  // const [userCount, setUserCount] = useState(0);
+  // const [formCount, setFormCount] = useState(0);
+  //   const token = localStorage.getItem("token");
+  //  const { isAuthenticated, user, login } = useAuth();
+  //   useEffect(() => {
+  //     if (token) {
+  //       socket.connect();
+  //       socket.on("userCount", (count) => {
+  //         console.log("Received userCount:", count);
+  //         setUserCount(count);
+  //       });
+
+  //       socket.on("formCount", (count) => {
+  //         console.log("Received formCount:", count);
+  //         setFormCount(count);
+  //       });
+
+  //       // Clean up
+  //       return () => {
+  //         socket.off("userCount");
+  //         socket.off("formCount");
+  //       };
+  //     }
+  //   }, [token]);
   return (
     <Routes>
       {/* Public routes */}

@@ -1,9 +1,5 @@
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import io from "socket.io-client";
-import { useEffect, useState } from "react";
-
-const socket = io("http://localhost:5000");
 
 export default function MainLayout() {
   const { logout } = useAuth();
@@ -13,19 +9,6 @@ export default function MainLayout() {
     logout();
     navigate("/login");
   };
-
-  const [userCount, setUserCount] = useState(0);
-  const [formCount, setFormCount] = useState(0);
-
-  useEffect(() => {
-    socket.on("userCount", (count) => setUserCount(count));
-    socket.on("formCount", (count) => setFormCount(count));
-
-    return () => {
-      socket.off("userCount");
-      socket.off("formCount");
-    };
-  }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -38,11 +21,8 @@ export default function MainLayout() {
           <Link to="/dashboard" className="hover:underline">
             Dashboard
           </Link>
-          <Link to="/submitted" className="hover:underline">
-            SubmiitedForms{formCount}
-          </Link>
         </div>
-        <h3> userCount {userCount}</h3>
+
         <button
           onClick={handleLogout}
           className="bg-red-500 px-4 py-2 rounded hover:bg-red-600"
