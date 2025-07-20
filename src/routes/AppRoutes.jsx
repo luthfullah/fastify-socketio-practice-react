@@ -10,6 +10,7 @@ import AuthLayout from "../layouts/AuthLayout";
 import FormComp from "../pages/FormComp";
 import Home from "../pages/Home";
 import SubmittedForms from "../pages/SubmittedForms";
+import FormNotifications from "@/pages/FormsNotification";
 // import { useEffect, useState } from "react";
 // import io from "socket.io-client";
 
@@ -56,6 +57,7 @@ export default function AppRoutes() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/form" element={<FormComp />} />
           <Route path="/submitted" element={<SubmittedForms />} />
+          <Route path="/allforms" element={<FormNotifications />} />
         </Route>
       </Route>
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import {
   Calendar,
@@ -21,6 +21,38 @@ const FormComp = () => {
     newsletter: false,
     terms: false,
   });
+
+  const subscribeToPush = async () => {
+    const registration = await navigator.serviceWorker.ready;
+
+    // Get public VAPID key from server
+    // const res = await axios.get("http://localhost:5000/api/auth/public-key");
+    // const vapidPublicKey = res.data.publicKey;
+    const vapidPublicKey =
+      "BEOgjRRfkB1nZgHaoc6BjdWGj673e_4BO7YJ1Q0UyEu1KHcholWVOGNRwGnreATk0yuiRGqP7x7BWTk2YwF13Tc";
+
+    const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
+
+    const subscription = await registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: convertedVapidKey,
+    });
+
+    // Send subscription to server to store
+    await axios.post("http://localhost:5000/api/auth/subscribe", subscription);
+  };
+
+  // Helper to convert VAPID key
+  function urlBase64ToUint8Array(base64String) {
+    const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+    const base64 = (base64String + padding)
+      .replace(/\-/g, "+")
+      .replace(/_/g, "/");
+
+    const rawData = atob(base64);
+    return Uint8Array.from([...rawData].map((c) => c.charCodeAt(0)));
+  }
+
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -33,6 +65,14 @@ const FormComp = () => {
         payload
       );
       console.log("Form submitted successfully:", response.data);
+      if ("serviceWorker" in navigator && "PushManager" in window) {
+        try {
+          await subscribeToPush();
+          console.log("Push subscription complete");
+        } catch (err) {
+          console.error("Push subscription failed:", err);
+        }
+      }
 
       // Optional: reset form
       setFormData({
@@ -53,6 +93,12 @@ const FormComp = () => {
       );
     }
   };
+
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").catch(console.error);
+    }
+  }, []);
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));

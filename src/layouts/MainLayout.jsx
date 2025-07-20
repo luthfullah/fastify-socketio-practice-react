@@ -21,6 +21,9 @@ export default function MainLayout() {
           <Link to="/dashboard" className="hover:underline">
             Dashboard
           </Link>
+          <Link to="/allforms" className="hover:underline">
+            Allforms
+          </Link>
         </div>
 
         <button
